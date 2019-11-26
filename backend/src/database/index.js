@@ -8,7 +8,7 @@ import Tool from '../app/models/Tool';
 import databaseConfig from '../config/database';
 
 // Models list
-const models = [User];
+const models = [User, Tool];
 
 class Database {
   constructor() {
