@@ -1,7 +1,9 @@
 import Tool from '../schemas/Tool';
 
 class ToolsController {
+  // List Tools
   async index(req, res) {
+    // List only tools with provided query params
     if (req.query.tag) {
       const { tag } = req.query;
       if (tag) {
@@ -10,42 +12,47 @@ class ToolsController {
         return res.status(200).json(tools);
       }
     }
-    console.log('Acessar Mongoose');
+
+    // List all the tools
     const tools = await Tool.find();
 
     return res.status(200).json(tools);
-
-    // Buscar no banco
-
-    // return res.status(200).json({ id, title, link, description, tags: [] });
-
-    // Se receber query 'tag', apenas filtrar
-
-    // return res.status(200).json({ id, title, link, description, tags: [] });
   }
 
-  // Não vai usar... apenas com query
-  // async show(req, res) {}
+  // Show details of the tool with the provided id
+  async show(req, res) {
+    const { id } = req.params;
 
+    const tool = await Tool.findById(id);
+
+    return res.status(200).json(tool);
+  }
+
+  // Create a new tool
   async store(req, res) {
     const { title, link, description, tags } = req.body;
-
-    console.log(title, link, description);
 
     const tool = await Tool.create({ title, link, description, tags });
 
     return res.status(201).json(tool);
   }
 
-  // Não vai usar
-  // async update(req, res) {}
+  // Update tools with the provided id
+  async update(req, res) {
+    const { id } = req.params;
+    const data = req.body;
 
+    const tool = await Tool.findByIdAndUpdate(id, data, { new: true });
+
+    return res.status(200).json(tool);
+  }
+
+  // Delete Tool with the provided id
   async delete(req, res) {
     const { id } = req.params;
 
     await Tool.findByIdAndDelete(id);
 
-    // Pq a mensagem não funciona?
     return res.status(204).json({ message: 'Registro deletado.' });
   }
 }
