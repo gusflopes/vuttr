@@ -7,7 +7,7 @@ class Tool extends Model {
         title: { type: Sequelize.STRING, allowNull: false },
         link: { type: Sequelize.STRING, allowNull: false },
         description: { type: Sequelize.STRING, allowNull: false },
-        tag: { type: Sequelize.ARRAY(Sequelize.STRING), defaultValue: null },
+        tags: { type: Sequelize.ARRAY(Sequelize.STRING), defaultValue: null },
       },
       {
         sequelize,

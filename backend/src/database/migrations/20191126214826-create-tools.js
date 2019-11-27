@@ -10,7 +10,7 @@ module.exports = {
       title: { type: Sequelize.STRING, allowNull: false },
       link: { type: Sequelize.STRING, allowNull: false, unique: true },
       description: { type: Sequelize.STRING, allowNull: false },
-      tag: { type: Sequelize.ARRAY(Sequelize.STRING), defaultValue: null },
+      tags: { type: Sequelize.ARRAY(Sequelize.STRING), defaultValue: null },
       created_at: { type: Sequelize.DATE, allowNull: false },
       updated_at: { type: Sequelize.DATE, allowNull: false },
     });

@@ -5,13 +5,15 @@ import Tool from '../models/Tool';
 
 class ToolController {
   async index(req, res) {
-    if (req.query.tag) {
+    if (req.query.tags) {
       // List only Tools with the Tag
-      const { tag } = req.query;
+      const { tags } = req.query;
 
       const tools = await Tool.findAll({
         where: {
-          [tag]: tag,
+          tags: {
+            [Op.contains]: [tags],
+          },
         },
       });
 
@@ -40,7 +42,7 @@ class ToolController {
     const data = req.body;
     try {
       const tool = await Tool.create(data);
-      return res.status(200).json(tool);
+      return res.status(201).json(tool);
     } catch (err) {
       // const { message } = err.errors;
       return res.status(400).json(err);
@@ -65,10 +67,9 @@ class ToolController {
     // Delete method
     const id = req.params;
     try {
-      const tool = await Tool.findOne(id);
-
-      await tool.destroy();
-      return res.status(204);
+      const tool = await Tool.findOne({ where: id });
+      tool.destroy();
+      return res.status(204).send();
     } catch (err) {
       return res.status(400).json(err);
     }
