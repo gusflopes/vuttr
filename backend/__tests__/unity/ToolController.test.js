@@ -52,6 +52,20 @@ describe('ToolController', () => {
     expect(response.body.id === tool.id).toBeTruthy();
   });
 
+  it('should throw an error when id is incorrect', async () => {
+    const token = await authenticate();
+    await factory.create('Tool');
+
+    const { id } = '987';
+
+    const response = await request(app)
+      .get(`/tools/${id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send();
+
+    expect(response.status).toBe(400);
+  });
+
   // Store Method
   it('should be able to create a new register', async () => {
     const token = await authenticate();
@@ -64,6 +78,21 @@ describe('ToolController', () => {
 
     expect(response.body).toHaveProperty('id');
     expect(response.status).toBe(201);
+  });
+
+  it('should throw an error when missing a required field', async () => {
+    const token = await authenticate();
+    const tool = await factory.attrs('Tool');
+
+    const { title, link, description, tags } = tool;
+
+    const response = await request(app)
+      .post('/tools')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ title, description, tags });
+
+    // Missing link that is a required field
+    expect(response.status).toBe(400);
   });
 
   // Update Method
@@ -80,6 +109,20 @@ describe('ToolController', () => {
 
     expect(response.body.title).toBe('New Title');
     expect(response.status).toBe(200);
+  });
+
+  it('should throw an error when trying to update and inexisting register', async () => {
+    const token = await authenticate();
+    await factory.create('Tool');
+
+    const { id } = '987';
+
+    const response = await request(app)
+      .put(`/tools/${id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ title: 'New Title' });
+
+    expect(response.status).toBe(400);
   });
 
   // Delete Method
