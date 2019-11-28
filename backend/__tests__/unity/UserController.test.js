@@ -11,7 +11,7 @@ describe('User', () => {
 
   // Email already exists on update
   it('should not allow to change email to an email already used', async () => {
-    const previousUser = await factory.create('User', {
+    await factory.create('User', {
       email: 'email@email.com',
     });
     const user = await factory.create('User');
