@@ -9,9 +9,9 @@ info:
     email: gusflopes86@gmail.com
 
 servers:
-  - url: https://api.vuttr.gusflopes.dev/v1
+  - url: https://api.vuttr.gusflopes.dev
     description: Production Server
-  - url: http://localhost:3000/v1
+  - url: http://localhost:3000
     description: Development Server
 
 paths:
@@ -28,7 +28,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/ResponseUser'
       requestBody:
         required: true
         content:
@@ -47,14 +47,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/ResponseUser'
 
       requestBody:
         required: true
         content:
           application/json:
               schema:
-                $ref: '#/components/schemas/ExtendedUser'
+                $ref: '#/components/schemas/UpdateUser'
   /sessions:
     post:
       summary: Sign In User
@@ -109,7 +109,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tool'
+                $ref: '#/components/schemas/ResponseTool'
       requestBody:
         required: true
         content:
@@ -136,7 +136,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tool'
+                $ref: '#/components/schemas/ResponseTool'
       requestBody:
         required: true
         content:
@@ -173,7 +173,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tool'
+                $ref: '#/components/schemas/ResponseTool'
     delete:
       summary: Delete the tool
       description: Delete the tool with the provided ID
@@ -211,9 +211,6 @@ components:
     User:
       type: object
       properties:
-        id:
-          type: integer
-          example: 1
         name:
           type: string
           example: 'Gustavo Lopes'
@@ -224,7 +221,16 @@ components:
           type: string
           example: 'pass123'
 
-    ExtendedUser:
+    ResponseUser:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+        - $ref: '#/components/schemas/User'
+
+    UpdateUser:
       allOf:
         - $ref: '#/components/schemas/User'
         - type: object
@@ -265,15 +271,10 @@ components:
     Tool:
       type: object
       required:
-        - id
         - title
         - link
         - description
       properties:
-        id:
-          type: integer
-          example: 1
-          description: ID
         title:
           type: string
           example: "Tool #1"
@@ -287,10 +288,22 @@ components:
           type: array
           example: ["Node.js", "React Native"]
 
+    ResponseTool:
+      allOf:
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              type: integer
+              example: 1
+        - $ref: '#/components/schemas/Tool'
+
+
     ArrayOfTools:
       type: array
       items:
-        $ref: '#/components/schemas/Tool'
+        $ref: '#/components/schemas/ResponseTool'
 
 security:
   - bearerAuth: []

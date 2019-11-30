@@ -11,21 +11,21 @@ import authMiddleware from './app/middlewares/auth';
 const routes = new Router();
 
 // Public Routes
-routes.get('/v1/', (req, res) => res.json({ message: 'API running' }));
-routes.post('/v1/users', UserController.store);
-routes.post('/v1/sessions', SessionController.store);
+routes.get('/', (req, res) => res.json({ message: 'API running' }));
+routes.post('/users', UserController.store);
+routes.post('/sessions', SessionController.store);
 
 // Middleware
 routes.use(authMiddleware);
 
 // Private API Routes
-routes.put('/v1/users', UserController.update);
+routes.put('/users', UserController.update);
 
 // Tools Block
-routes.post('/v1/tools', ToolController.store);
-routes.get('/v1/tools', ToolController.index);
-routes.get('/v1/tools/:id', ToolController.show);
-routes.put('/v1/tools/:id', ToolController.update);
-routes.delete('/v1/tools/:id', ToolController.delete);
+routes.post('/tools', ToolController.store);
+routes.get('/tools', ToolController.index);
+routes.get('/tools/:id', ToolController.show);
+routes.put('/tools/:id', ToolController.update);
+routes.delete('/tools/:id', ToolController.delete);
 
 export default routes;
