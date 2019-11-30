@@ -1,0 +1,299 @@
+openapi: 3.0.0
+
+info:
+  title: VUTTR API
+  description: Project developed as a backend test from Bossabox.
+  version: 1.0.0
+  contact:
+    name: Gustavo Lopes
+    email: gusflopes86@gmail.com
+
+servers:
+  - url: https://api.vuttr.gusflopes.dev/v1
+    description: Production Server
+  - url: http://localhost:3000/v1
+    description: Development Server
+
+paths:
+  /users:
+    post:
+      summary: Create User
+      description: Create a new User
+      tags:
+        - USERS
+      security: []
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+
+    put:
+      summary: Update User
+      description: This route is private and only works with the Authorization Token. For updating the user only the changed fields could be provideded. To change the password, the oldPassword must be provided.
+      tags:
+        - USERS
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/ExtendedUser'
+  /sessions:
+    post:
+      summary: Sign In User
+      description: Login and generete the User's Bearer Token
+      tags:
+        - SESSIONS
+      security: []
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignIn'
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Credentials'
+
+  /tools:
+    get:
+      summary: List Tools
+      description: List all the tools
+      tags:
+        - TOOLS
+      parameters:
+      - in: query
+        name: tags
+        description: Accepts an array of tags to filter Tools
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfTools'
+    post:
+      summary: Create a Tool
+      description: Create a new tool
+      tags:
+        - TOOLS
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tool'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tool'
+
+  /tools/{id}:
+    put:
+      summary: Update a tool
+      description: Update a tool with the provided ID
+      tags:
+        - TOOLS
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the tool to update
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tool'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                title:
+                  type: string
+                  example: "Tool #1"
+                link:
+                  type: string
+                  example: http://gusflopes.dev
+                description:
+                  type: string
+                  example: Ferramenta muito útil
+                tags:
+                  type: array
+                  example: ["Node.js", "React Native"]
+    get:
+      summary: Details of the tool
+      description: Show details of the tool with the provided ID
+      tags:
+        - TOOLS
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the tool to update
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tool'
+    delete:
+      summary: Delete the tool
+      description: Delete the tool with the provided ID
+      tags:
+        - TOOLS
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the tool to delete
+      responses:
+        204:
+          description: No Content
+
+tags:
+  - name: USERS
+    description: Users Routes
+  - name: SESSIONS
+    description: Authentication Routes
+  - name: TOOLS
+    description: Tools Routes
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: 'Gustavo Lopes'
+        email:
+          type: string
+          example: 'gusflopes86@gmail.com'
+        password:
+          type: string
+          example: 'pass123'
+
+    ExtendedUser:
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            oldPassword:
+              type: string
+              example: 'pass123'
+
+    Credentials:
+      type: object
+      properties:
+        email:
+          type: string
+          example: 'gusflopes86@gmail.com'
+        password:
+          type: string
+          example: 'pass123'
+
+    SignIn:
+      type: object
+      properties:
+        user:
+          properties:
+            id:
+              type: integer
+              example: '1'
+            name:
+              type: string
+              example: 'Gustavo Lopes'
+            email:
+              type: string
+              example: 'gusflopes86@gmail.com'
+        token:
+          type: string
+          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTc1MDc4NDUyLCJleHAiOjE1NzU2ODMyNTJ9.oi2RiCP5sqKgP4C7hPSFLcMAPgRfuITH3hmfhN6Q_Qk'
+
+
+    Tool:
+      type: object
+      required:
+        - id
+        - title
+        - link
+        - description
+      properties:
+        id:
+          type: integer
+          example: 1
+          description: ID
+        title:
+          type: string
+          example: "Tool #1"
+        link:
+          type: string
+          example: http://gusflopes.dev
+        description:
+          type: string
+          example: Ferramenta muito útil
+        tags:
+          type: array
+          example: ["Node.js", "React Native"]
+
+    ArrayOfTools:
+      type: array
+      items:
+        $ref: '#/components/schemas/Tool'
+
+security:
+  - bearerAuth: []
+
+
+
