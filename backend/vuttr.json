@@ -1,0 +1,319 @@
+{
+	"info": {
+		"_postman_id": "cbefe54a-7d2e-45e2-8e4b-009a049d329b",
+		"name": "VUTTR",
+		"description": "Rotas de Usuários",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Usuário Administrador\",\n\t\"email\": \"gl@gusflopes.dev\",\n\t\"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/users",
+						"description": "Criar usuário"
+					},
+					"response": []
+				},
+				{
+					"name": "Editar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Usuário Administrador Editado\",\n\t\"email\": \"gl@gusflopes.dev\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/users",
+						"description": "Criar usuário"
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "",
+						"description": "Criar usuário"
+					},
+					"response": []
+				}
+			],
+			"description": "folder\n",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "85b59358-3d51-4d5c-a8fa-f478791debcb",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "46d20d02-04c2-404d-a9f6-b5b64eb803c1",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Ferramentas [/tools]",
+			"item": [
+				{
+					"name": "Nova ferramenta",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Titulo\",\n\t\"link\": \"http://tool.com\",\n\t\"description\": \"Description\",\n\t\"tags\": [\n\t\t\"Javascript\",\n\t\t\"Node.js\"\n\t\t]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/tools",
+						"description": "Criar uma nova ferramenta."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar ferramentas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/tools",
+						"description": "Listar todas as ferramentas cadastradas."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar ferramentas por Tag",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/tools?tag=Node.js",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tools"
+							],
+							"query": [
+								{
+									"key": "tag",
+									"value": "Node.js"
+								}
+							]
+						},
+						"description": "Listar as ferramentas usando tag nos query parameters"
+					},
+					"response": []
+				},
+				{
+					"name": "Detalhes da ferramenta",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/tools/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tools",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "4"
+								}
+							]
+						},
+						"description": "Buscar detalhes de uma ferramenta pelo `id`"
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar ferramenta",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/tools/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tools",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Deletar ferramenta pelo ID fornecido."
+					},
+					"response": []
+				},
+				{
+					"name": "Editar ferramenta",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Titulo Editado 2\",\n\t\"tags\": [\n\t\t\"React\",\n\t\t\"Node.js\"\n\t\t]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/tools/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tools",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Editar ferramenta com o `id` fornecido"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "",
+				"description": "Rota de autenticação com usuário e senha"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
