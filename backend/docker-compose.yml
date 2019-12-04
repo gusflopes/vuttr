@@ -21,10 +21,16 @@ services:
       - /home/node/api/node_modules
     ports:
       - '3000:3000'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "postgres:5432"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
     depends_on:
       - postgres
     networks:
       - vuttr-network
+
 
 volumes:
   pg-data:

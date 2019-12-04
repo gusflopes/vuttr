@@ -15,9 +15,11 @@ COPY --chown=node:node . .
 EXPOSE 3000
 
 # Add wait-for-it
-COPY wait-for-it.sh wait-for-it.sh
-RUN chmod +x wait-for-it.sh
+# COPY wait-for-it.sh wait-for-it.sh
+# RUN chmod +x wait-for-it.sh
 
 ENTRYPOINT [ "/bin/bash", "-c" ]
 
-CMD ["./wait-for-it.sh", "tcp:postgres", "--strict", "--timeout=300", "--", "start.sh" ]
+CMD [ "yarn", "dev" ]
+
+# CMD ["./wait-for-it.sh", "tcp:postgres", "--strict", "--timeout=300", "--", "yarn", "dev" ]
