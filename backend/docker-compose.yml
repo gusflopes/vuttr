@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  api:
+    build: .
+    container_name: vuttr
+    volumes:
+      - .:/home/node/api
+      - /home/node/api/node_modules
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+    networks:
+      - vuttr-network
+
+  postgres:
+    image: postgres:12
+    container_name: postgres
+    environment:
+      POSTGRES_PASSWORD: 'docker'
+    ports:
+      - '5432:5432'
+    volumes:
+      - pg-data:/data
+    networks:
+      - vuttr-network
+
+  migration:
+    image: api:latest
+    command: ["./wait-for-it/wait-for-it.sh", ]
+
+volumes:
+  pg-data:
+
+networks:
+  vuttr-network:
+    driver: bridge
