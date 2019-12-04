@@ -26,10 +26,6 @@ services:
     networks:
       - vuttr-network
 
-  migration:
-    image: api:latest
-    command: ["./wait-for-it/wait-for-it.sh", ]
-
 volumes:
   pg-data:
 
