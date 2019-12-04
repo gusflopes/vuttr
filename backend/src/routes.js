@@ -11,7 +11,7 @@ import authMiddleware from './app/middlewares/auth';
 const routes = new Router();
 
 // Public Routes
-routes.get('/', (req, res) => res.json({ message: 'API running' }));
+routes.get('/', (req, res) => res.json({ message: 'API running...' }));
 routes.post('/users', UserController.store);
 routes.post('/sessions', SessionController.store);
 

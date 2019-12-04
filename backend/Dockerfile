@@ -17,9 +17,9 @@ EXPOSE 3000
 # Add wait-for-it
 # COPY wait-for-it.sh wait-for-it.sh
 # RUN chmod +x wait-for-it.sh
+# RUN chmod +x start.sh
 
-ENTRYPOINT [ "/bin/bash", "-c" ]
+ENTRYPOINT [ "/bin/sh", "./entrypoint-dev.sh" ]
 
-CMD [ "yarn", "dev" ]
-
+# CMD ["yarn sequelize db:migrate", "yarn dev", "echo chegou aqui"]
 # CMD ["./wait-for-it.sh", "tcp:postgres", "--strict", "--timeout=300", "--", "yarn", "dev" ]

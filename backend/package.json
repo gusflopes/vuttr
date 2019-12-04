@@ -9,10 +9,10 @@
     "dev": "nodemon src/server.js",
     "dev:debug": "nodemon --inspect src/server.js",
     "build": "sucrase ./src -d ./dist --transforms imports",
-    "test:setup": "NODE_ENV=test sequelize db:create test",
-    "pretest": "NODE_ENV=test sequelize db:migrate",
+    "test:setup": "docker start postgres && NODE_ENV=test sequelize db:create test && docker stop postgres",
+    "pretest": "docker start postgres && NODE_ENV=test sequelize db:migrate",
     "test": "NODE_ENV=test jest --runInBand --watchAll",
-    "posttest": "NODE_ENV=test sequelize db:migrate:undo:all",
+    "posttest": "NODE_ENV=test sequelize db:migrate:undo:all && docker stop postgres",
     "start": "node dist/server.js"
   },
   "dependencies": {
