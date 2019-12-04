@@ -1,6 +1,18 @@
 version: '3'
 
 services:
+  postgres:
+    image: postgres:12
+    container_name: postgres
+    environment:
+      POSTGRES_PASSWORD: 'docker'
+    ports:
+      - '5432:5432'
+    volumes:
+      - pg-data:/data
+    networks:
+      - vuttr-network
+
   api:
     build: .
     container_name: vuttr
@@ -11,18 +23,6 @@ services:
       - '3000:3000'
     depends_on:
       - postgres
-    networks:
-      - vuttr-network
-
-  postgres:
-    image: postgres:12
-    container_name: postgres
-    environment:
-      POSTGRES_PASSWORD: 'docker'
-    ports:
-      - '5432:5432'
-    volumes:
-      - pg-data:/data
     networks:
       - vuttr-network
 

@@ -20,5 +20,4 @@ RUN chmod +x wait-for-it.sh
 
 ENTRYPOINT [ "/bin/bash", "-c" ]
 
-CMD ["./wait-for-it.sh", "tcp:postgres", "--strict", "--timeout=300", "--", "yarn", "dev"]
-# CMD ["yarn", "dev"]
+CMD ["./wait-for-it.sh", "tcp:postgres", "--strict", "--timeout=300", "--", "start.sh" ]
