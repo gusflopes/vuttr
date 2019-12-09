@@ -10,10 +10,10 @@
     "dev:debug": "nodemon --inspect src/server.js",
     "build": "sucrase ./src -d ./dist --transforms imports",
     "start": "node dist/server.js",
-    "test:setup": "docker start postgres && NODE_ENV=test sequelize db:create test && docker stop postgres",
-    "pretest": "docker start postgres && NODE_ENV=test sequelize db:migrate",
+    "test:setup": "docker start database && NODE_ENV=test sequelize db:create test && docker stop database",
+    "pretest": "docker start database && NODE_ENV=test sequelize db:migrate",
     "test": "NODE_ENV=test jest --runInBand --watchAll",
-    "posttest": "NODE_ENV=test sequelize db:migrate:undo:all && docker-compose stop"
+    "posttest": "NODE_ENV=test sequelize db:migrate:undo:all && docker stop database"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

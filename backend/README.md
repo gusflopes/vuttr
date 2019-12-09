@@ -19,6 +19,8 @@ Esse comando será executado para fazer toda a instalação do ambiente de desen
 ### Ambiente de Testes
 O ambiente de testes **depende do Ambiente de Desenvolvimento**, sendo que irá utilizar o mesmo container do Posgres, mas em database diferente. Se ainda não rodou o comando anterior, execute antes desses:
 
+Iniciar container `database` usando o seguinte comando: `docker run --name database -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -d postgres:12`
+
 `yarn test:setup`
 Com esse script criamos o banco de dados a ser utilizado durante nossos testes. Os testes serão realizados no Postgres, no mesmo container que usamos em desenvolvimento, mas em Banco de Dados distinto.
 
