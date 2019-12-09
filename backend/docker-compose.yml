@@ -1,27 +1,7 @@
-version: '3'
+version: '3.5'
 
 services:
-  postgres:
-    image: postgres:12
-    container_name: postgres
-    environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASS}
-      POSTGRES_DB: ${DB_NAME}
-    deploy:
-      restart_policy:
-        condition: any
-        delay: 5s
-        max_attempts: 3
-        window: 120s
-    ports:
-      - '5432:5432'
-    volumes:
-      - pg-data:/var/lib/postgresql/data
-    networks:
-      - vuttr-network
-
-  api:
+  vuttr:
     build: .
     container_name: vuttr
     environment:
@@ -30,20 +10,18 @@ services:
       - .:/home/node/api
       - /home/node/api/node_modules
     ports:
-      - '3000:3000'
+      - '${APP_PORT}:${APP_PORT}'
     healthcheck:
       test: ["CMD", "curl", "-f", "postgres:5432"]
       interval: 30s
       timeout: 10s
       retries: 5
-    depends_on:
-      - postgres
-    networks:
-      - vuttr-network
 
-volumes:
-  pg-data:
 
 networks:
-  vuttr-network:
-    driver: bridge
+  default:
+    external:
+      name: backend
+
+volumes:
+  vuttr:
